@@ -46,7 +46,7 @@ export class CdkAppsyncChatStack extends cdk.Stack {
       value: userPoolClient.userPoolClientId
     });
 
-    const api = new GraphQLApi(this, 'Api', {
+    const api = new GraphQLApi(this, 'cdk-chat-app', {
       name: appName,
       logConfig: {
         fieldLogLevel: FieldLogLevel.ALL,
@@ -111,12 +111,12 @@ export class CdkAppsyncChatStack extends cdk.Stack {
     const messageTableDs = api.addDynamoDbDataSource('Message', 'The messages data source', messageTable);
     const roomTableDs = api.addDynamoDbDataSource('Room', 'The room data source', roomTable);
 
-    messageTableDs.createResolver({
-      typeName: 'Query',
-      fieldName: 'getMessage',
-      requestMappingTemplate: MappingTemplate.dynamoDbGetItem('id', 'id'),
-      responseMappingTemplate: MappingTemplate.dynamoDbResultItem(),
-    });
+    // messageTableDs.createResolver({
+    //   typeName: 'Query',
+    //   fieldName: 'getMessage',
+    //   requestMappingTemplate: MappingTemplate.dynamoDbGetItem('id', 'id'),
+    //   responseMappingTemplate: MappingTemplate.dynamoDbResultItem(),
+    // });
 
     messageTableDs.createResolver({
       typeName: 'Query',
