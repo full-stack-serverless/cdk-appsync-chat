@@ -2,7 +2,7 @@
 
 ## CDK AppSync Chat
 
-This CDK project deploys an AppSync API, Amazon DynamoDB tables, and an Amazon Cognito User Pool configured to create the infrasstructure for a chat application.
+This CDK project deploys an AppSync API, Amazon DynamoDB tables, and an Amazon Cognito User Pool configured to create the infrasstructure for a chat application. It is paired with a React front-end for a full-stack serverless project.
 
 ### Deploying the back end
 
