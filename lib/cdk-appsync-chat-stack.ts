@@ -1,11 +1,11 @@
-import * as cdk from '@aws-cdk/core';
+import { Construct, StackProps, CfnOutput, Stack } from '@aws-cdk/core';
 import { UserPool, VerificationEmailStyle, UserPoolClient, AccountRecovery } from '@aws-cdk/aws-cognito'
 import { GraphQLApi, AuthorizationType, FieldLogLevel, MappingTemplate, SchemaDefinition } from '@aws-cdk/aws-appsync'
 import { AttributeType, BillingMode, Table } from '@aws-cdk/aws-dynamodb';
 import { Role, ServicePrincipal, Effect, PolicyStatement } from '@aws-cdk/aws-iam'
 
-export class CdkAppsyncChatStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+export class CdkAppsyncChatStack extends Stack {
+  constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
     
     const userPool = new UserPool(this, 'cdk-chat-app-user-pool', {
@@ -29,11 +29,11 @@ export class CdkAppsyncChatStack extends cdk.Stack {
       userPool
     });
 
-    new cdk.CfnOutput(this, "UserPoolId", {
+    new CfnOutput(this, "UserPoolId", {
       value: userPool.userPoolId
     });
     
-    new cdk.CfnOutput(this, "UserPoolClientId", {
+    new CfnOutput(this, "UserPoolClientId", {
       value: userPoolClient.userPoolClientId
     });
 
@@ -54,7 +54,7 @@ export class CdkAppsyncChatStack extends cdk.Stack {
       },
     });
 
-    new cdk.CfnOutput(this, "GraphQLAPIURL", {
+    new CfnOutput(this, "GraphQLAPIURL", {
       value: api.graphQlUrl
     });
 
@@ -102,13 +102,6 @@ export class CdkAppsyncChatStack extends cdk.Stack {
 
     const messageTableDs = api.addDynamoDbDataSource('Message', 'The messages data source', messageTable);
     const roomTableDs = api.addDynamoDbDataSource('Room', 'The room data source', roomTable);
-
-    // messageTableDs.createResolver({
-    //   typeName: 'Query',
-    //   fieldName: 'getMessage',
-    //   requestMappingTemplate: MappingTemplate.dynamoDbGetItem('id', 'id'),
-    //   responseMappingTemplate: MappingTemplate.dynamoDbResultItem(),
-    // });
 
     messageTableDs.createResolver({
       typeName: 'Query',
