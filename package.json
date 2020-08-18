@@ -21,13 +21,10 @@
     "typescript": "~3.7.2"
   },
   "dependencies": {
-    "@aws-cdk/aws-appsync": "^1.55.0",
-    "@aws-cdk/aws-cognito": "^1.55.0",
-    "@aws-cdk/aws-dynamodb": "^1.55.0",
-    "@aws-cdk/aws-lambda": "^1.55.0",
-    "@aws-cdk/core": "^1.55.0",
-    "iam": "^0.1.0",
-    "path": "^0.12.7",
+    "@aws-cdk/aws-appsync": "^1.59.0",
+    "@aws-cdk/aws-cognito": "^1.59.0",
+    "@aws-cdk/aws-dynamodb": "^1.59.0",
+    "@aws-cdk/core": "^1.59.0",
     "source-map-support": "^0.5.16"
   }
 }

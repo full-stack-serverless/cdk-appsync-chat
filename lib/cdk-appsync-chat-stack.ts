@@ -1,11 +1,8 @@
 import * as cdk from '@aws-cdk/core';
 import { UserPool, VerificationEmailStyle, UserPoolClient, AccountRecovery } from '@aws-cdk/aws-cognito'
-import { GraphQLApi, AuthorizationType, FieldLogLevel, MappingTemplate } from '@aws-cdk/aws-appsync'
+import { GraphQLApi, AuthorizationType, FieldLogLevel, MappingTemplate, SchemaDefinition } from '@aws-cdk/aws-appsync'
 import { AttributeType, BillingMode, Table } from '@aws-cdk/aws-dynamodb';
 import { Role, ServicePrincipal, Effect, PolicyStatement } from '@aws-cdk/aws-iam'
-import { join } from 'path';
-
-const appName = "cdk-chat-app"
 
 export class CdkAppsyncChatStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -15,8 +12,6 @@ export class CdkAppsyncChatStack extends cdk.Stack {
       selfSignUpEnabled: true,
       accountRecovery: AccountRecovery.PHONE_AND_EMAIL,
       userVerification: {
-        emailSubject: 'Please verify your email.',
-        emailBody: 'Hello, your verification code is {####}',
         emailStyle: VerificationEmailStyle.CODE
       },
       autoVerify: {
@@ -38,20 +33,17 @@ export class CdkAppsyncChatStack extends cdk.Stack {
       value: userPool.userPoolId
     });
     
-    new cdk.CfnOutput(this, "UserPoolProviderUrl", {
-      value: userPool.userPoolProviderUrl
-    });
-    
     new cdk.CfnOutput(this, "UserPoolClientId", {
       value: userPoolClient.userPoolClientId
     });
 
     const api = new GraphQLApi(this, 'cdk-chat-app', {
-      name: appName,
+      name: "cdk-chat-app",
       logConfig: {
         fieldLogLevel: FieldLogLevel.ALL,
       },
-      schemaDefinitionFile: join(__dirname, '/../', 'graphql/schema.graphql'),
+      schemaDefinition: SchemaDefinition.FILE,
+      schemaDefinitionFile: './graphql/schema.graphql',
       authorizationConfig: {
         defaultAuthorization: {
           authorizationType: AuthorizationType.USER_POOL,
