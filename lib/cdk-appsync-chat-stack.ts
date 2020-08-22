@@ -100,8 +100,8 @@ export class CdkAppsyncChatStack extends Stack {
       }
     })
 
-    const messageTableDs = api.addDynamoDbDataSource('Message', 'The messages data source', messageTable);
-    const roomTableDs = api.addDynamoDbDataSource('Room', 'The room data source', roomTable);
+    const messageTableDs = api.addDynamoDbDataSource('Message', messageTable);
+    const roomTableDs = api.addDynamoDbDataSource('Room', roomTable);
 
     messageTableDs.createResolver({
       typeName: 'Query',
