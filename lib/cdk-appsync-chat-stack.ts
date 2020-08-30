@@ -1,6 +1,6 @@
 import { Construct, StackProps, CfnOutput, Stack } from '@aws-cdk/core';
 import { UserPool, VerificationEmailStyle, UserPoolClient, AccountRecovery } from '@aws-cdk/aws-cognito'
-import { GraphQLApi, AuthorizationType, FieldLogLevel, MappingTemplate, SchemaDefinition } from '@aws-cdk/aws-appsync'
+import { GraphQLApi, AuthorizationType, FieldLogLevel, MappingTemplate, Schema, UserPoolDefaultAction } from '@aws-cdk/aws-appsync'
 import { AttributeType, BillingMode, Table } from '@aws-cdk/aws-dynamodb';
 import { Role, ServicePrincipal, Effect, PolicyStatement } from '@aws-cdk/aws-iam'
 
@@ -42,13 +42,13 @@ export class CdkAppsyncChatStack extends Stack {
       logConfig: {
         fieldLogLevel: FieldLogLevel.ALL,
       },
-      schemaDefinition: SchemaDefinition.FILE,
-      schemaDefinitionFile: './graphql/schema.graphql',
+      schema: Schema.fromAsset('./graphql/schema.graphql'),
       authorizationConfig: {
         defaultAuthorization: {
           authorizationType: AuthorizationType.USER_POOL,
           userPoolConfig: {
-            userPool
+            userPool: userPool,
+            defaultAction: UserPoolDefaultAction.ALLOW,
           }
         },
       },
